@@ -1,0 +1,56 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ee547project-dev-bb18f-authRole",
+      "UnauthRoleArn": "arn:aws:iam::677276078618:role/amplify-ee547project-dev-bb18f-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::677276078618:role/amplify-ee547project-dev-bb18f-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-ee547project-dev-bb18f-deployment",
+      "UnauthRoleName": "amplify-ee547project-dev-bb18f-unauthRole",
+      "StackName": "amplify-ee547project-dev-bb18f",
+      "StackId": "arn:aws:cloudformation:us-west-2:677276078618:stack/amplify-ee547project-dev-bb18f/d5626de0-b2e4-11ef-a5e0-0621c78b9c79",
+      "AmplifyAppId": "d2yo17jpjeqmpt"
+    }
+  },
+  "auth": {
+    "ee547project2326cd2a": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-ee547project-dev-bb18f-deployment/amplify-cfn-templates/auth/ee547project2326cd2a-cloudformation-template.json",
+        "logicalId": "authee547project2326cd2a"
+      },
+      "lastPushTimeStamp": "2024-12-05T08:46:49.529Z",
+      "output": {
+        "UserPoolId": "us-west-2_rgqFg4f7m",
+        "AppClientIDWeb": "3qr494ebgmp7vaq32qho85c23j",
+        "AppClientID": "5mbgc6vrk8msggf10ge3vq01td",
+        "IdentityPoolId": "us-west-2:e93b6785-8481-470c-939c-86ecdad0317e",
+        "UserPoolArn": "arn:aws:cognito-idp:us-west-2:677276078618:userpool/us-west-2_rgqFg4f7m",
+        "IdentityPoolName": "ee547project2326cd2a_identitypool_2326cd2a__dev",
+        "UserPoolName": "ee547project2326cd2a_userpool_2326cd2a"
+      },
+      "lastPushDirHash": "RykGeIHrHHR72IIejiioYjWXLrY="
+    }
+  }
+}
