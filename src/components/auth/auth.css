@@ -1,0 +1,87 @@
+[data-amplify-authenticator] {
+    --amplify-components-tabs-item-active-border-color: #2c6e2f;
+}
+
+[data-amplify-authenticator] {
+    display: flex;
+    flex-direction: column; /* Ensure elements are stacked vertically */
+    justify-content: center; /* Center the content vertically */
+    align-items: center; /* Center the content horizontally */
+    height: 100vh; /* Full viewport height */
+    --amplify-components-button-primary-background-color: #2c6e2f;
+    --amplify-components-button-primary-background-color: #4caf50; /* Changed to Green */
+    --amplify-components-button-primary-hover-background-color: #388e3c; /* Hover effect */
+    --amplify-components-button-primary-focus-background-color: #388e3c; /* Focus effect */
+    --amplify-components-button-primary-active-background-color: #2c6e2f; /* Active state */
+    --amplify-components-button-link-color: #1e88e5; /* Changed to Blue */
+    --amplify-components-button-link-hover-color: #1565c0; /* Hover effect */
+    --amplify-components-button-link-focus-color: #1565c0; /* Focus effect */
+    --amplify-components-button-link-active-color: #0d47a1; /* Active state */
+    --amplify-components-button-link-active-background-color: transparent;
+    --amplify-components-button-link-focus-background-color: transparent;
+    --amplify-components-button-link-hover-background-color: transparent;
+    z-index: 1;
+    
+  }
+  :root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --background-color: #f8f9fa;
+    --white: #ffffff;
+    --font-family: 'Inter', sans-serif;
+  }
+
+  
+  .auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(102, 153, 102, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+.auth-container::before{
+    content: '';
+    position: absolute;
+    width: 850px;
+    height: 850px;
+    border-radius: 40%;
+    z-index: 0;
+    animation: wave 22s infinite linear;
+  }
+.auth-container::after {
+  content: '';
+  position: absolute;
+  width: 850px;
+  height: 850px;
+  border-radius: 40%;
+  z-index: 0;
+  animation: wave 25s infinite linear;
+}
+
+.auth-container::before {
+  background-color: rgba(241,130,51,0.1);
+  bottom: -50%;
+  right: -10%;
+}
+
+.auth-container::after {
+  background-color: rgba(255, 107, 107, 0.1);
+  top: -50%;
+  left: -10%;
+}
+  
+  @keyframes wave {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .logo {
+    width: 100px; 
+    height: auto; 
+  }
