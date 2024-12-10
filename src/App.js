@@ -6,18 +6,21 @@ import axios from "axios";
 import L from "leaflet";
 import "./App.css";
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports'; 
+import awsconfig from './aws-exports';
 import "leaflet/dist/leaflet.css";
 
+// Configure Amplify
 Amplify.configure(awsconfig);
 
+// Fix Leaflet marker icons
 const fireIcon = L.icon({
-    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    iconSize: [20, 30],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconSize: [20, 30],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
 });
+
 L.Marker.prototype.options.icon = fireIcon;
 
 // Custom Authenticator Components
@@ -50,10 +53,7 @@ const components = {
         Header() {
             const { tokens } = useTheme();
             return (
-                <Heading
-                    padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
-                    level={3}
-                >
+                <Heading padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`} level={3}>
                     Create a new account
                 </Heading>
             );
@@ -65,8 +65,10 @@ function App() {
     const [fires, setFires] = useState([]);
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
+    const [fireTrends, setFireTrends] = useState(null); // State for fire trends
+    const [dashboardData, setDashboardData] = useState(null); // State for dashboard data
 
-    // Fetch fire data based on user's latitude and longitude
+    // Fetch fire data
     const fetchFireData = async (lat, lng) => {
         try {
             const response = await axios.get(
@@ -78,26 +80,31 @@ function App() {
         }
     };
 
-    // Fetch fire trends data (commented out for now)
-    // const fetchFireTrends = async () => {
-    //     try {
-    //         const response = await axios.get(
-    //             `https://wjy9ft4cn3.execute-api.us-east-1.amazonaws.com/prod/fire-trends?year=2024`
-    //         );
-    //         setFireTrends(response.data);
-    //     } catch (error) {
-    //         console.error("Error fetching the fire trends:", error);
-    //     }
-    // };
-
-    // Static fire trends data for now
-    const fireTrends = {
-        year: "2024",
-        fire_count: 603,
-        total_acres_burned: 1016878.43
+    // Fetch fire trends data
+    const fetchFireTrends = async () => {
+        try {
+            const response = await axios.get(
+                `https://wjy9ft4cn3.execute-api.us-east-1.amazonaws.com/prod/fire-trends?year=2024`
+            );
+            setFireTrends(response.data);
+        } catch (error) {
+            console.error("Error fetching the fire trends:", error);
+        }
     };
 
-    // Get user's location and fetch fire data
+    // Fetch dashboard data
+    const fetchDashboardData = async () => {
+        try {
+            const response = await axios.get(
+                `https://wjy9ft4cn3.execute-api.us-east-1.amazonaws.com/prod/dashboard-data`
+            );
+            setDashboardData(response.data);
+        } catch (error) {
+            console.error("Error fetching the dashboard data:", error);
+        }
+    };
+
+    // Get user location and fetch data
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -108,8 +115,7 @@ function App() {
                     setLongitude(userLongitude);
                     fetchFireData(userLatitude, userLongitude);
                 },
-                (error) => {
-                    console.error("Geolocation error:", error);
+                () => {
                     const defaultLatitude = 33.917991;
                     const defaultLongitude = -116.91162;
                     setLatitude(defaultLatitude);
@@ -117,16 +123,10 @@ function App() {
                     fetchFireData(defaultLatitude, defaultLongitude);
                 }
             );
-        } else {
-            console.log("Geolocation is not supported by this browser.");
-            const defaultLatitude = 33.917991;
-            const defaultLongitude = -116.91162;
-            setLatitude(defaultLatitude);
-            setLongitude(defaultLongitude);
-            fetchFireData(defaultLatitude, defaultLongitude);
         }
 
-        // fetchFireTrends(); // Commented out fire trends fetch logic
+        fetchFireTrends(); // Fetch fire trends data
+        fetchDashboardData(); // Fetch dashboard data
     }, []);
 
     if (latitude === null || longitude === null) {
@@ -144,19 +144,33 @@ function App() {
                         </header>
                         <div className="app-content">
                             <div className="sidebar">
-                                <h2>Fire Information</h2>
-                                <ul>
-                                    {fires.map((fire, index) => (
-                                        <li key={index}>{fire.incident.Name.S}</li>
-                                    ))}
-                                </ul>
+                                <button>Home</button>
+                                <button>Fire History</button>
+                                <button>Fire Trends</button>
+                                <button>Dashboard Data</button>
+                                {dashboardData && (
+                                    <div className="dashboard-box">
+                                        <h3>Dashboard Data</h3>
+                                        <p><strong>Total Fires:</strong> {dashboardData.total_fire_count}</p>
+                                        <p><strong>Total Acres Burned:</strong> {dashboardData.total_acres_burned.toFixed(2)}</p>
+                                        <p><strong>Active Fires:</strong> {dashboardData.active_fires}</p>
+                                        <p><strong>Fire Types:</strong></p>
+                                        <ul>
+                                            {Object.entries(dashboardData.fire_types).map(([type, count]) => (
+                                                <li key={type}>{type}: {count}</li>
+                                            ))}
+                                        </ul>
+                                        <p><strong>Fire Regions:</strong></p>
+                                        <ul>
+                                            {Object.entries(dashboardData.fire_regions).map(([region, count]) => (
+                                                <li key={region}>{region}: {count}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
-                            <div id="map" className="map-container">
-                                <MapContainer
-                                    center={[latitude, longitude]}
-                                    zoom={10}
-                                    style={{ height: "100%", width: "100%" }}
-                                >
+                            <div className="map-container">
+                                <MapContainer center={[latitude, longitude]} zoom={10} style={{ height: "100%", width: "100%" }}>
                                     <TileLayer
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
