@@ -1,54 +1,50 @@
-body {
-  margin: 0;
+.auth-container {
   font-family: Arial, sans-serif;
-  background-color: #282c34;
-  color: white;
-}
-
-.App {
-  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-header {
-  background-color: #20232a;
+  background-color: #282c34;
   padding: 20px;
-}
-
-.App-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
+  color: white;
+  text-align: center;
 }
 
 button {
-  margin-top: 10px;
   background-color: #61dafb;
   border: none;
-  color: #282c34;
   padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1rem;
+  color: #282c34;
   cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 button:hover {
   background-color: #21a1f1;
 }
 
-main {
+.app-content {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
+  height: calc(100vh - 70px); /* Adjust height based on header */
 }
 
-.leaflet-container {
-  height: 90vh !important;
-  width: 100% !important;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.sidebar {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
-button:focus {
-  outline: none;
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.map-container {
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  height: 100%;
 }
