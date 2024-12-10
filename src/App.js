@@ -146,8 +146,6 @@ function App() {
                             <div className="sidebar">
                                 <button>Home</button>
                                 <button>Fire History</button>
-                                <button>Fire Trends</button>
-                                <button>Dashboard Data</button>
                                 {dashboardData && (
                                     <div className="dashboard-box">
                                         <h3>Dashboard Data</h3>
