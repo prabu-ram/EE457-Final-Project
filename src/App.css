@@ -47,4 +47,25 @@ button:hover {
   margin-left: 250px;
   width: calc(100% - 250px);
   height: 100%;
+  position: relative; /* Set relative positioning for the fire-trends placement */
+}
+
+.fire-trends {
+  position: absolute; /* Position within the map-container */
+  top: 20px; /* Distance from the top of the map-container */
+  right: 20px; /* Distance from the right edge of the map-container */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it appears above the map */
+}
+
+.fire-trends h2 {
+  margin: 0 0 10px;
+}
+
+.fire-trends p {
+  margin: 5px 0;
 }

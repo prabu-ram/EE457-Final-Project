@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
 
 Amplify.configure(awsconfig);
 
-
 const fireIcon = L.icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
@@ -79,7 +78,26 @@ function App() {
         }
     };
 
-    // Get user's location
+    // Fetch fire trends data (commented out for now)
+    // const fetchFireTrends = async () => {
+    //     try {
+    //         const response = await axios.get(
+    //             `https://wjy9ft4cn3.execute-api.us-east-1.amazonaws.com/prod/fire-trends?year=2024`
+    //         );
+    //         setFireTrends(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching the fire trends:", error);
+    //     }
+    // };
+
+    // Static fire trends data for now
+    const fireTrends = {
+        year: "2024",
+        fire_count: 603,
+        total_acres_burned: 1016878.43
+    };
+
+    // Get user's location and fetch fire data
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -107,6 +125,8 @@ function App() {
             setLongitude(defaultLongitude);
             fetchFireData(defaultLatitude, defaultLongitude);
         }
+
+        // fetchFireTrends(); // Commented out fire trends fetch logic
     }, []);
 
     if (latitude === null || longitude === null) {
@@ -176,6 +196,13 @@ function App() {
                                 </MapContainer>
                             </div>
                         </div>
+                        {fireTrends && (
+                            <div className="fire-trends">
+                                <h2>Fire Trends - {fireTrends.year}</h2>
+                                <p><strong>Total Fires:</strong> {fireTrends.fire_count}</p>
+                                <p><strong>Total Acres Burned:</strong> {fireTrends.total_acres_burned.toFixed(2)}</p>
+                            </div>
+                        )}
                     </div>
                 )}
             </Authenticator>
